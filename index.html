@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="ru" class="no-js">
+<head>
+<meta charset="utf-8">
+<title>Law.Tech — CRM для юридических компаний</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Law.Tech — CRM для управления юридическим офисом: офисы, клиенты, дела, касса, сотрудники, KPI и AI-анализ договоров в одном окне. Внедрение за 1 день, данные в РФ (152-ФЗ).">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<style>
+/* ============ tokens & reset ============ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#ffffff;--ink:#0A0A0B;--muted:#6b6f76;--line:#ebe8e2;--warm:#faf8f4;
+  --accent:#2563EB;--accent2:#1d4ed8;--navy:#161d3a;
+  --sans:'Inter',sans-serif;--disp:'Archivo',sans-serif;--serif:'Fraunces',serif;--rad:10px;
+  /* crm */
+  --c-bg:#f4f5f8;--c-side:#ffffff;--c-line:#e9ebf0;--c-ink:#141a2e;--c-mut:#8b91a1;
+  --c-accent:#2563EB;--c-navy:#161d3a;--c-green:#13a05a;--c-greenbg:#e7f7ee;--c-star:#f59e0b;
+  --c-card:#ffffff;--c-rad:14px;
+}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:0 26px}
+.disp{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+h1,h2,h3{font-family:var(--disp);letter-spacing:-.02em}
+.eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:#eef3ff;padding:6px 12px;border-radius:100px}
+.muted{color:var(--muted)}
+.serif-i{font-family:var(--serif);font-style:italic}
+
+/* ============ buttons ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);font-weight:600;font-size:15px;border-radius:var(--rad);padding:13px 22px;cursor:pointer;border:1px solid transparent;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .2s;will-change:transform}
+.btn-pri{background:var(--ink);color:#fff;box-shadow:0 8px 24px -10px rgba(0,0,0,.5)}
+.btn-pri:hover{transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(0,0,0,.55)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{transform:translateY(-2px);border-color:#d8d4cc}
+.btn-accent{background:var(--accent);color:#fff;box-shadow:0 10px 26px -10px rgba(37,99,235,.7)}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 18px 38px -12px rgba(37,99,235,.8)}
+
+/* ============ top nav ============ */
+.topnav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo-w{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:800;font-size:18px}
+.logo-w .lg{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;font-size:13px}
+.links{display:flex;gap:28px}
+.links a{font-size:14.5px;color:var(--muted);font-weight:500;transition:color .2s}
+.links a:hover{color:var(--ink)}
+.nav-cta{display:flex;gap:10px}
+@media(max-width:860px){.links{display:none}.nav-cta .btn-ghost{display:none}}
+
+/* ============ hero ============ */
+.hero{position:relative;padding:64px 0 30px;overflow:hidden}
+.hero-glow{position:absolute;top:-180px;right:-120px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.16),transparent 62%);filter:blur(20px);pointer-events:none}
+.grid-deco{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:46px 46px;opacity:.4;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000,transparent 75%);pointer-events:none}
+.hero .wrap{position:relative}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:end;margin-top:20px}
+.hero h1{font-size:clamp(38px,6vw,78px);line-height:.98;font-weight:900}
+.hero-sub{color:var(--muted);font-size:17px;line-height:1.6;max-width:430px}
+.hero-cta{display:flex;gap:11px;margin-top:24px;flex-wrap:wrap}
+.hero-tags{display:flex;gap:18px;margin-top:22px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.hero-tags span{display:flex;align-items:center;gap:7px}
+.hero-tags b{color:var(--ink);font-weight:600}
+.dotmark{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:18px;align-items:start}.hero-sub{max-width:none}}
+
+/* ============ CRM app frame (shared mockup system) ============ */
+.stage{margin-top:40px;perspective:1800px}
+.app{border-radius:18px;background:var(--c-bg);border:1px solid var(--c-line);box-shadow:0 50px 100px -40px rgba(20,26,46,.4),0 18px 40px -24px rgba(20,26,46,.25);overflow:hidden}
+.app-bar{display:flex;align-items:center;gap:14px;height:42px;padding:0 16px;background:#fff;border-bottom:1px solid var(--c-line)}
+.app-bar .dots{display:flex;gap:6px}.app-bar .dots i{width:11px;height:11px;border-radius:50%;background:#e2e4ea}.app-bar .dots i:nth-child(1){background:#ff5f57}.app-bar .dots i:nth-child(2){background:#febc2e}.app-bar .dots i:nth-child(3){background:#28c840}
+.app-bar .crumb{font-size:12.5px;color:var(--c-mut);display:flex;gap:6px;align-items:center}.app-bar .crumb b{color:var(--c-ink);font-weight:600}
+.app-bar .live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;color:var(--c-mut)}
+.app-bar .pulse{width:7px;height:7px;border-radius:50%;background:#28c840;box-shadow:0 0 0 0 rgba(40,200,64,.5);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(40,200,64,.5)}70%{box-shadow:0 0 0 7px rgba(40,200,64,0)}100%{box-shadow:0 0 0 0 rgba(40,200,64,0)}}
+.app-body{display:grid;grid-template-columns:208px 1fr;min-height:540px}
+
+/* crm sidebar */
+.c-side{background:var(--c-side);border-right:1px solid var(--c-line);padding:16px 12px;display:flex;flex-direction:column}
+.c-brand{display:flex;align-items:center;justify-content:space-between;padding:4px 8px 16px;font-family:var(--disp);font-weight:800;font-size:17px;color:var(--c-ink)}
+.c-brand .chev{width:22px;height:22px;border:1px solid var(--c-line);border-radius:6px;display:grid;place-items:center;color:var(--c-mut)}
+.c-nav{display:flex;flex-direction:column;gap:2px}
+.c-nav a{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;font-size:14px;font-weight:500;color:#525a6b;transition:background .15s,color .15s}
+.c-nav a svg{width:18px;height:18px;stroke:#8b91a1;stroke-width:1.7;fill:none}
+.c-nav a:hover{background:#f5f6f9}
+.c-nav a.on{background:#eef3ff;color:var(--c-accent);font-weight:600}
+.c-nav a.on svg{stroke:var(--c-accent)}
+.c-side-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--c-line);display:flex;flex-direction:column;gap:10px}
+.c-set{display:flex;align-items:center;gap:11px;padding:8px 11px;font-size:13.5px;color:#525a6b}
+.c-set svg{width:17px;height:17px;stroke:#8b91a1;stroke-width:1.7;fill:none}
+.c-user{display:flex;align-items:center;gap:10px;padding:6px 8px}
+.c-ava{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11.5px;font-weight:700;color:#fff;background:var(--c-navy);flex:none}
+.c-user b{font-size:13px;color:var(--c-ink);display:block;font-weight:600}
+.c-user small{font-size:11.5px;color:var(--c-mut)}
+
+/* crm main */
+.c-main{padding:22px 24px;overflow:hidden;background:var(--c-bg)}
+.c-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.c-h1{font-family:var(--disp);font-weight:800;font-size:23px;color:var(--c-ink)}
+.c-btn-navy{background:var(--c-navy);color:#fff;font-size:13px;font-weight:600;padding:10px 16px;border-radius:9px;border:none;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.c-btn-out{background:#fff;border:1px solid var(--c-line);color:#444b5c;font-size:12.5px;font-weight:500;padding:8px 13px;border-radius:8px;display:inline-flex;gap:6px;align-items:center}
+.c-tabs{display:flex;gap:6px;margin-bottom:18px;background:#fff;border:1px solid var(--c-line);border-radius:11px;padding:5px;width:max-content}
+.c-tab{font-size:13px;font-weight:500;color:#6b7280;padding:8px 16px;border-radius:8px;border:none;background:none;cursor:pointer;transition:.18s}
+.c-tab.on{background:#eef3ff;color:var(--c-accent);font-weight:600}
+.c-panel{display:none}.c-panel.on{display:block;animation:fadeUp .5s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* office cards */
+.c-offices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.c-office{background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--c-rad);padding:16px}
+.c-office.sel{border-color:var(--c-accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.c-office .oh{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.c-office .oh b{font-size:14.5px;color:var(--c-accent);font-weight:700}
+.pill-on{font-size:11px;font-weight:600;color:var(--c-green);background:var(--c-greenbg);padding:3px 9px;border-radius:100px}
+.c-office .orow{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#5c6373;margin-top:5px}
+.c-office .orow svg{width:14px;height:14px;stroke:#9aa1b0;stroke-width:1.7;fill:none}
+.c-office .orow b{color:var(--c-ink);font-weight:600}
+
+/* plan/fact */
+.c-card{background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--c-rad);padding:18px;margin-bottom:16px}
+.c-card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.c-card-h b{font-size:15px;color:var(--c-ink);font-weight:700;font-family:var(--disp)}
+.c-period{display:flex;align-items:center;gap:9px;margin-bottom:15px}
+.c-period .pbtn{font-size:11.5px;color:#7a8190;border:1px solid var(--c-line);background:#fff;border-radius:7px;padding:5px 10px}
+.c-period .pbtn.mut{color:#b6bcc8}
+.c-period .pdate{font-size:13px;font-weight:700;color:var(--c-ink)}
+.c-plan2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.c-plan{border:1px solid var(--c-line);border-radius:11px;padding:14px 15px;background:#fff}
+.c-plan .pl{font-size:10.5px;font-weight:600;letter-spacing:.05em;color:#9aa1b0;text-transform:uppercase}
+.c-plan .pv{font-family:var(--disp);font-weight:800;font-size:25px;color:var(--c-ink);margin:8px 0 3px}
+.c-plan .pv small{font-size:13px;font-weight:500;color:#aeb4c0}
+.c-bar{height:7px;border-radius:100px;background:#eef0f5;overflow:hidden;margin:10px 0 6px}
+.c-bar i{display:block;height:100%;border-radius:100px;background:linear-gradient(90deg,#2563EB,#3b82f6);width:0;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.c-pct{font-size:12.5px;font-weight:700;color:var(--c-green)}
+
+/* table (kassa / arrivals) */
+.c-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.c-tbl thead th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#9aa1b0;padding:9px 10px;border-bottom:1px solid var(--c-line)}
+.c-tbl thead th.r{text-align:right}
+.c-tbl tbody td{padding:11px 10px;border-bottom:1px solid #f1f2f6;color:#4b5263;vertical-align:middle}
+.c-tbl tbody td.r{text-align:right;font-weight:600;color:var(--c-ink)}
+.c-tbl tbody tr:last-child td{border-bottom:none}
+.c-tbl .name{font-weight:600;color:var(--c-ink)}
+.c-tbl .blue{color:var(--c-accent);font-weight:700}
+.c-tbl .grn{color:var(--c-green);font-weight:700}
+.c-tbl tr.total td{font-weight:800;color:var(--c-ink);border-top:1px solid var(--c-line);background:#fafbfc}
+.stars{color:var(--c-star);letter-spacing:1px;font-size:12px}
+.stars .o{color:#dfe3ea}
+.kassa-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:#9aa1b0}
+.kassa-legend b{color:var(--c-star)}
+
+/* staff grid */
+.c-filters{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.c-input{background:#fff;border:1px solid var(--c-line);border-radius:9px;padding:9px 13px;font-size:12.5px;color:#7a8190;display:flex;align-items:center;gap:8px}
+.c-input svg{width:14px;height:14px;stroke:#aeb4c0;stroke-width:1.7;fill:none}
+.c-input.grow{flex:1;min-width:160px}
+.c-staff{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.c-scard{background:var(--c-card);border:1px solid var(--c-line);border-radius:12px;padding:13px;display:flex;align-items:center;gap:11px}
+.c-scard .sa{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;flex:none}
+.c-scard b{font-size:13px;color:var(--c-ink);font-weight:600;display:block}
+.c-scard small{font-size:11.5px;color:var(--c-mut);display:block}
+.c-scard .lg{font-size:11px;color:#9aa1b0;display:flex;align-items:center;gap:4px;margin-top:3px}
+.c-scard .lg svg{width:11px;height:11px;stroke:#b6bcc8;stroke-width:1.8;fill:none}
+@media(max-width:1100px){.c-staff{grid-template-columns:repeat(2,1fr)}}
+
+/* arrivals kpi */
+.c-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.c-kpi{background:var(--c-card);border:1px solid var(--c-line);border-radius:12px;padding:14px 15px}
+.c-kpi .kl{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#9aa1b0}
+.c-kpi .kv{font-family:var(--disp);font-weight:800;font-size:26px;color:var(--c-ink);margin-top:8px}
+.c-kpi .kv.grn{color:var(--c-green)}.c-kpi .kv.acc{color:var(--c-accent)}
+.c-result{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-size:12px}
+.c-result.y{background:var(--c-green)}.c-result.n{background:#e2e4ea;color:#fff}
+.c-select{border:1px solid var(--c-line);border-radius:7px;padding:5px 9px;font-size:11.5px;color:#4b5263;display:inline-flex;gap:14px;align-items:center;background:#fff}
+.c-select svg{width:11px;height:11px;stroke:#aeb4c0;fill:none;stroke-width:2}
+.c-doc{font-size:11.5px;color:var(--c-accent);font-weight:600;border:1px solid #cfe0ff;border-radius:7px;padding:5px 11px;display:inline-block}
+@media(max-width:900px){.c-kpis{grid-template-columns:repeat(2,1fr)}}
+
+.app-cap{text-align:center;margin-top:16px;color:var(--muted);font-size:13.5px;font-family:var(--serif);font-style:italic}
+
+/* responsive: collapse app on small screens */
+@media(max-width:760px){.app-body{grid-template-columns:1fr}.c-side{display:none}.c-main{padding:16px}.c-offices,.c-plan2{grid-template-columns:1fr}.c-staff{grid-template-columns:1fr}.app{overflow-x:auto}.c-tbl{min-width:520px}}
+</style>
+</head>
+<body>
+<!-- ================= TOP NAV ================= -->
+<header class="topnav"><div class="wrap">
+  <div class="logo-w"><span class="lg">L</span> Law.Tech</div>
+  <nav class="links">
+    <a href="#modules">Возможности</a><a href="#showcase">Интерфейс</a><a href="#how">Как это работает</a><a href="#price">Тарифы</a><a href="#faq">FAQ</a>
+  </nav>
+  <div class="nav-cta"><a class="btn btn-ghost" style="padding:9px 16px">Войти</a><a class="btn btn-pri magnet" style="padding:9px 18px">Запросить демо</a></div>
+</div></header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="grid-deco"></div><div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="eyebrow reveal">CRM для юридических компаний</div>
+    <div class="hero-grid">
+      <h1 class="reveal" data-splitting>Меньше хаоса.<br>Больше выигранных&nbsp;дел.</h1>
+      <div class="reveal">
+        <p class="hero-sub">Офисы, клиенты, дела, касса, сотрудники и AI-анализ договоров — в одном выверенном интерфейсе. Прозрачная аналитика 24/7 вместо хаоса в чатах и таблицах.</p>
+        <div class="hero-cta"><a class="btn btn-pri magnet">Запросить демо</a><a class="btn btn-ghost">Войти</a></div>
+        <div class="hero-tags">
+          <span><i class="dotmark"></i><b>152-ФЗ</b> · данные в РФ</span>
+          <span><i class="dotmark"></i>Внедрение за <b>1 день</b></span>
+          <span><i class="dotmark"></i>Без скрытых платежей</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LIVE CRM MOCKUP (real interface) ===== -->
+    <div class="stage" data-parallax>
+      <div class="app reveal" data-app>
+        <div class="app-bar">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div class="crumb"><b>лаутеч.рф</b><span>/</span>workspace</div>
+          <div class="live"><span class="pulse"></span>Онлайн · обновлено сейчас</div>
+        </div>
+        <div class="app-body">
+          <!-- sidebar -->
+          <aside class="c-side">
+            <div class="c-brand">Law.Tech <span class="chev"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></span></div>
+            <nav class="c-nav">
+              <a class="on" data-go="office"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v0M9 13v0M9 17v0"/></svg>Офис</a>
+              <a><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="18" cy="9" r="2"/></svg>Клиенты</a>
+              <a><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/></svg>Акты</a>
+              <a><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>Зарплата</a>
+              <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Записи</a>
+              <a data-go="staff"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="18" cy="9" r="2"/></svg>Сотрудники</a>
+              <a data-go="arrivals"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg>Приходы</a>
+              <a><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h12"/></svg>Расходы</a>
+              <a><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Чат</a>
+            </nav>
+            <div class="c-side-foot">
+              <div class="c-set"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.7-1L16.5 2h-4l-.3 2.6a7 7 0 0 0-1.7 1l-2.4-1-2 3.4L5.1 11a7 7 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.7 1l.3 2.6h4l.3-2.6a7 7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6a7 7 0 0 0 .1-1z"/></svg>Настройки</div>
+              <div class="c-user"><span class="c-ava">СЗ</span><div><b>Сергей Зимин</b><small>Директор</small></div></div>
+            </div>
+          </aside>
+
+          <!-- main switchable -->
+          <main class="c-main">
+            <div class="c-tabs">
+              <button class="c-tab on" data-tab="office">Офис</button>
+              <button class="c-tab" data-tab="staff">Сотрудники</button>
+              <button class="c-tab" data-tab="arrivals">Приходы</button>
+            </div>
+
+            <!-- OFFICE PANEL -->
+            <div class="c-panel on" data-panel="office">
+              <div class="c-head"><div class="c-h1">Управление офисами</div><button class="c-btn-navy">+ Добавить офис</button></div>
+              <div class="c-offices">
+                <div class="c-office sel">
+                  <div class="oh"><b>LawTech Москва</b><span class="pill-on">Активен</span></div>
+                  <div class="orow"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/></svg>Сотрудники: <b>12</b></div>
+                  <div class="orow"><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Адрес: <b>г. Москва, ул. Тверская, 15</b></div>
+                </div>
+                <div class="c-office">
+                  <div class="oh"><b>LawTech Санкт-Петербург</b><span class="pill-on">Активен</span></div>
+                  <div class="orow"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/></svg>Сотрудники: <b>8</b></div>
+                  <div class="orow"><svg viewBox="0 0 24 24"><path d="M12 21s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Адрес: <b>г. СПб, Невский пр., 28</b></div>
+                </div>
+              </div>
+              <div class="c-card">
+                <div class="c-card-h"><b>План / Факт</b><button class="c-btn-out">✎ Изменить план</button></div>
+                <div class="c-period"><span class="pbtn">‹ Пред. период</span><span class="pdate">27.05.2026 – 09.06.2026</span><span class="pbtn mut">След. период ›</span></div>
+                <div class="c-plan2">
+                  <div class="c-plan">
+                    <span class="pl">План на день — 7 июня</span>
+                    <div class="pv"><span data-count="165000" data-fmt="money">0</span> ₽ <small>/ 200 000 ₽</small></div>
+                    <div class="c-bar"><i data-w="83"></i></div>
+                    <div class="c-pct"><span data-count="83">0</span>%</div>
+                  </div>
+                  <div class="c-plan">
+                    <span class="pl">План на период #4</span>
+                    <div class="pv"><span data-count="1980000" data-fmt="money">0</span> ₽ <small>/ 2 500 000 ₽</small></div>
+                    <div class="c-bar"><i data-w="79"></i></div>
+                    <div class="c-pct"><span data-count="79">0</span>%</div>
+                  </div>
+                </div>
+              </div>
+              <div class="c-card">
+                <div class="c-card-h" style="align-items:flex-start">
+                  <b>Касса юристов</b>
+                  <div class="kassa-legend"><span><b>★★★</b> ≥33% идеальный</span><span><b>★★</b> 25–32% хороший</span><span><b>★</b> 15–24% средний</span></div>
+                </div>
+                <table class="c-tbl">
+                  <thead><tr><th>Сотрудник</th><th>Роль</th><th>Консульт.</th><th>Заключено</th><th>Конверсия</th><th>Рейтинг</th><th class="r">Касса сегодня</th><th class="r">Касса за период</th></tr></thead>
+                  <tbody>
+                    <tr class="krow"><td class="name">Лаврова Екатерина</td><td>Юрист</td><td>14</td><td class="blue">9</td><td>64%</td><td><span class="stars">★★★</span></td><td class="r">60 000 ₽</td><td class="r">540 000 ₽</td></tr>
+                    <tr class="krow"><td class="name">Гусев Андрей</td><td>Юрист</td><td>12</td><td class="blue">8</td><td>67%</td><td><span class="stars">★★★</span></td><td class="r">50 000 ₽</td><td class="r">480 000 ₽</td></tr>
+                    <tr class="krow"><td class="name">Зорина Марина</td><td>Менеджер</td><td>20</td><td class="blue">6</td><td>30%</td><td><span class="stars">★★<span class="o">★</span></span></td><td class="r">45 000 ₽</td><td class="r">410 000 ₽</td></tr>
+                    <tr class="krow"><td class="name">Тихонов Роман</td><td>Менеджер</td><td>18</td><td class="blue">5</td><td>28%</td><td><span class="stars">★★<span class="o">★</span></span></td><td class="r">35 000 ₽</td><td class="r">330 000 ₽</td></tr>
+                    <tr class="krow"><td class="name">Беляева Анна</td><td>ОКК</td><td>10</td><td class="blue">2</td><td>20%</td><td><span class="stars">★<span class="o">★★</span></span></td><td class="r">10 000 ₽</td><td class="r">220 000 ₽</td></tr>
+                    <tr class="total"><td>Итого</td><td></td><td>74</td><td>30</td><td>41%</td><td></td><td class="r">200 000 ₽</td><td class="r">1 980 000 ₽</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- STAFF PANEL -->
+            <div class="c-panel" data-panel="staff">
+              <div class="c-head"><div class="c-h1">Сотрудники</div><button class="c-btn-navy">+ Создать сотрудника</button></div>
+              <div class="c-filters">
+                <span class="c-input">Все роли <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span>
+                <span class="c-input grow"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>Поиск по ФИО, логину…</span>
+                <span class="c-input">↺ Сбросить</span>
+              </div>
+              <div class="c-staff">
+                <div class="c-scard"><span class="sa" style="background:#2563EB">ПС</span><div><b>Попова Светлана</b><small>Оператор колл-центра</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>s.popova</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#7C3AED">ПИ</span><div><b>Петров Иван</b><small>Юрист</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>i.petrov</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#0EA5A4">СН</span><div><b>Сидорова Наталья</b><small>Представитель</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>n.sidorova</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#DB2777">ИТ</span><div><b>Иванова Татьяна</b><small>Администратор</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>t.ivanova</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#2563EB">ВА</span><div><b>Волков Алексей</b><small>Менеджер</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>a.volkov</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#0EA5A4">КМ</span><div><b>Козлова Мария</b><small>ОКК</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>m.kozlova</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#f59e0b">СД</span><div><b>Соколов Дмитрий</b><small>Начальник колл-центра</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>d.sokolov</span></div></div>
+                <div class="c-scard"><span class="sa" style="background:#7C3AED">НЕ</span><div><b>Новикова Елена</b><small>Эксперт</small><span class="lg"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-3 3-5 7-5s7 2 7 5"/></svg>e.novikova</span></div></div>
+              </div>
+            </div>
+
+            <!-- ARRIVALS PANEL -->
+            <div class="c-panel" data-panel="arrivals">
+              <div class="c-head"><div class="c-h1">Приходы</div><div class="c-btn-out">Первичные (2) · Действующие (0)</div></div>
+              <div class="c-kpis">
+                <div class="c-kpi"><div class="kl">Всего пришло</div><div class="kv"><span data-count="2">0</span></div></div>
+                <div class="c-kpi"><div class="kl">Первичных</div><div class="kv"><span data-count="2">0</span></div></div>
+                <div class="c-kpi"><div class="kl">Договор заключён</div><div class="kv grn"><span data-count="2">0</span></div></div>
+                <div class="c-kpi"><div class="kl">Не заключён</div><div class="kv"><span data-count="0">0</span></div></div>
+                <div class="c-kpi"><div class="kl">Конверсия</div><div class="kv acc"><span data-count="100">0</span>%</div></div>
+              </div>
+              <div class="c-card" style="padding:0;overflow:hidden">
+                <table class="c-tbl" style="font-size:12px">
+                  <thead><tr><th>ФИО</th><th>Телефон</th><th>Дата</th><th>Время</th><th>Кто записал</th><th>Юрист</th><th>Результат</th><th>Договор</th></tr></thead>
+                  <tbody>
+                    <tr class="krow"><td class="name">Лебедев Андрей</td><td>+7 963 300-82-35</td><td>09.05.2026</td><td>18:00</td><td>Светлана Попова</td><td><span class="c-select">Иван Петров <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></td><td><span class="c-result y">✓</span></td><td><span style="font-size:11.5px;color:#9aa1b0">Не зарегистрирован</span></td></tr>
+                    <tr class="krow"><td class="name">Иванов Иван</td><td>+7 948 673-76-80</td><td>09.05.2026</td><td>17:00</td><td>Дмитрий Соколов</td><td><span class="c-select">Иван Петров <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></td><td><span class="c-result y">✓</span></td><td><span class="c-doc">Документы №09052601</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+      <p class="app-cap reveal">Живой интерфейс — так выглядит рабочий стол Law.Tech</p>
+    </div>
+  </div>
+</section>
+<style>
+/* ============ marketing sections ============ */
+.block{padding:84px 0;position:relative}
+.warm{background:var(--warm)}
+.sec-head{max-width:680px;margin-bottom:42px}
+.sec-head h2{font-size:clamp(28px,4.2vw,46px);line-height:1.05;margin-top:16px}
+.sec-head p{color:var(--muted);font-size:16px;margin-top:14px}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* trust marquee */
+.trust{padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust p{text-align:center;color:var(--muted);font-family:var(--serif);font-style:italic;font-size:15px;margin-bottom:22px}
+.logos{display:flex;justify-content:center;gap:38px;flex-wrap:wrap}
+.logos span{font-family:var(--disp);font-weight:700;font-size:18px;color:#b9b4aa;letter-spacing:-.01em;transition:color .3s}
+.logos span:hover{color:var(--ink)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+.stat-num{font-family:var(--disp);font-weight:900;font-size:clamp(36px,5vw,58px);color:var(--ink);letter-spacing:-.03em;line-height:1}
+.stat-lab{color:var(--muted);font-size:14px;margin-top:10px}
+@media(max-width:760px){.stats{grid-template-columns:1fr 1fr;gap:28px 16px}}
+
+/* problem */
+.num-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.num-grid>div{padding-top:20px;border-top:2px solid var(--ink)}
+.num-grid .num{font-family:var(--disp);font-weight:800;font-size:14px;color:var(--accent)}
+.num-grid h3{font-size:20px;margin:12px 0 9px;font-weight:700}
+.num-grid p{color:var(--muted);font-size:14.5px;line-height:1.6}
+@media(max-width:760px){.num-grid{grid-template-columns:1fr;gap:8px}}
+
+/* modules (6) */
+.mod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mod{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+.warm .mod{background:#fff}
+.mod:hover{transform:translateY(-5px);box-shadow:0 26px 50px -28px rgba(20,26,46,.4);border-color:#dfe3ee}
+.mod .mi{width:46px;height:46px;border-radius:12px;background:#eef3ff;display:grid;place-items:center;margin-bottom:18px}
+.mod .mi svg{width:23px;height:23px;stroke:var(--accent);stroke-width:1.8;fill:none}
+.mod .mn{font-family:var(--disp);font-weight:700;font-size:12px;color:#b9c0d0;letter-spacing:.04em}
+.mod h3{font-size:18.5px;font-weight:700;margin:6px 0 9px}
+.mod p{color:var(--muted);font-size:14px;line-height:1.6}
+.mod .ai-tag{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;color:var(--accent);background:#eef3ff;padding:3px 10px;border-radius:100px}
+@media(max-width:880px){.mod-grid{grid-template-columns:1fr}}
+
+/* showcase rows */
+.show-row{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center;margin-top:64px}
+.show-row:first-of-type{margin-top:0}
+.show-row.rev .show-txt{order:2}.show-row.rev .show-vis{order:1}
+.show-txt .eyebrow{margin-bottom:16px}
+.show-txt h3{font-size:clamp(24px,3.4vw,34px);line-height:1.08;font-weight:800;font-family:var(--disp);letter-spacing:-.02em}
+.show-txt p{color:var(--muted);font-size:15.5px;line-height:1.65;margin-top:14px}
+.show-txt ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:11px}
+.show-txt li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:#3a3f49}
+.show-txt li svg{width:19px;height:19px;flex:none;margin-top:1px;stroke:var(--accent);stroke-width:2;fill:none}
+.show-vis{position:relative}
+.mini{background:var(--c-bg);border:1px solid var(--c-line);border-radius:16px;box-shadow:0 34px 70px -40px rgba(20,26,46,.42);overflow:hidden}
+.mini-bar{height:34px;display:flex;align-items:center;gap:6px;padding:0 13px;background:#fff;border-bottom:1px solid var(--c-line)}
+.mini-bar i{width:9px;height:9px;border-radius:50%;background:#e2e4ea}
+.mini-bar i:nth-child(1){background:#ff5f57}.mini-bar i:nth-child(2){background:#febc2e}.mini-bar i:nth-child(3){background:#28c840}
+.mini-bar span{margin-left:8px;font-size:11.5px;color:var(--c-mut)}
+.mini-in{padding:18px}
+@media(max-width:880px){.show-row{grid-template-columns:1fr;gap:24px;margin-top:48px}.show-row.rev .show-txt{order:1}.show-row.rev .show-vis{order:2}}
+
+/* AI scan widget */
+.ai-doc{background:#fff;border:1px solid var(--c-line);border-radius:12px;overflow:hidden}
+.ai-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--c-line)}
+.ai-h b{font-size:13px;color:var(--c-ink);font-weight:600}
+.ai-badge{font-size:10.5px;font-weight:600;color:var(--c-accent);background:#eef3ff;padding:4px 10px;border-radius:100px;display:flex;align-items:center;gap:6px}
+.ai-badge .sp{width:6px;height:6px;border-radius:50%;background:var(--c-accent);animation:pulse2 1.4s infinite}
+@keyframes pulse2{0%,100%{opacity:.3}50%{opacity:1}}
+.ai-scan{position:relative;padding:14px;display:flex;flex-direction:column;gap:9px}
+.ai-line{height:9px;border-radius:5px;background:#eef0f5}
+.ai-line.s{width:62%}.ai-line.m{width:88%}.ai-line.l{width:100%}
+.ai-flag{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;border:1px solid var(--c-line);font-size:12.5px;color:#3a3f49;opacity:0;transform:translateY(8px);transition:.5s}
+.ai-flag.show{opacity:1;transform:none}
+.ai-flag .lvl{margin-left:auto;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:100px}
+.ai-flag.high .lvl{color:#dc2626;background:#fdeaea}
+.ai-flag.med .lvl{color:#d97706;background:#fef3e2}
+.ai-flag.ok .lvl{color:var(--c-green);background:var(--c-greenbg)}
+.ai-flag .ico{width:8px;height:8px;border-radius:50%}
+.ai-flag.high .ico{background:#dc2626}.ai-flag.med .ico{background:#d97706}.ai-flag.ok .ico{background:var(--c-green)}
+.ai-flags{display:flex;flex-direction:column;gap:8px;padding:0 14px 14px}
+
+/* для кого */
+.seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.seg{border:1px solid var(--line);border-radius:18px;padding:32px;background:#fff}
+.seg .tag{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:17px;color:#fff;background:var(--ink);margin-bottom:18px}
+.seg h3{font-size:21px;font-weight:700;margin-bottom:16px}
+.seg ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.seg li{display:flex;gap:11px;font-size:14.5px;color:#3a3f49;line-height:1.5}
+.seg li svg{width:19px;height:19px;flex:none;margin-top:1px;stroke:var(--accent);stroke-width:2;fill:none}
+@media(max-width:760px){.seg-grid{grid-template-columns:1fr}}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.step{position:relative}
+.stepn{font-family:var(--disp);font-weight:900;font-size:44px;color:#e9ecf3;line-height:1}
+.step h3{font-size:19px;font-weight:700;margin:6px 0 9px}
+.step p{color:var(--muted);font-size:14.5px;line-height:1.6}
+@media(max-width:760px){.steps{grid-template-columns:1fr;gap:20px}}
+
+/* security */
+.sec-split{display:grid;grid-template-columns:1.2fr .8fr;gap:46px;align-items:center}
+.sec-list{display:flex;flex-direction:column;gap:18px;margin-top:24px}
+.sec-list .it{display:flex;gap:15px}
+.sec-list .dot{width:42px;height:42px;border-radius:11px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.sec-list .dot svg{width:20px;height:20px;stroke:var(--accent);stroke-width:1.8;fill:none}
+.sec-list b{font-size:15.5px;font-weight:700}
+.sec-list p{color:var(--muted);font-size:14px;margin-top:3px;line-height:1.55}
+.shield{background:var(--ink);color:#fff;border-radius:20px;padding:40px 32px;text-align:center}
+.shield .big{font-family:var(--disp);font-weight:900;font-size:72px;line-height:1;background:linear-gradient(120deg,#fff,#93b4ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.shield .cap{font-weight:700;margin-top:8px;font-size:16px}
+.shield .sub{color:rgba(255,255,255,.6);font-size:13px;margin-top:14px;line-height:1.6}
+@media(max-width:760px){.sec-split{grid-template-columns:1fr;gap:28px}}
+
+/* reviews */
+.tstm-swiper{padding-bottom:50px!important}
+.quote{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;height:100%}
+.quote .stars{color:var(--c-star);font-size:15px;letter-spacing:2px}
+.quote p{font-size:15.5px;line-height:1.6;margin:14px 0 20px;color:#2a2e36}
+.who{display:flex;align-items:center;gap:12px}
+.ava2{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.who b{font-size:14.5px;font-weight:700;display:block}
+.who small{font-size:12.5px;color:var(--muted)}
+.swiper-pagination-bullet-active{background:var(--accent)!important}
+
+/* pricing */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.price{border:1px solid var(--line);border-radius:18px;padding:30px;background:#fff;position:relative}
+.price.pop{border-color:var(--ink);box-shadow:0 30px 60px -34px rgba(20,26,46,.5)}
+.price .badge{position:absolute;top:-12px;left:30px;background:var(--ink);color:#fff;font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px}
+.pname{font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pval{font-family:var(--disp);font-weight:900;font-size:38px;margin:10px 0 4px}
+.pval small{font-size:14px;font-weight:500;color:var(--muted)}
+.price ul{list-style:none;margin:18px 0 22px;display:flex;flex-direction:column;gap:11px}
+.price li{display:flex;gap:9px;font-size:14px;color:#3a3f49}
+.price li::before{content:"✓";color:var(--accent);font-weight:700}
+.price .btn{width:100%}
+@media(max-width:880px){.prices{grid-template-columns:1fr}}
+
+/* integrations */
+.integ{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.integ span{border:1px solid var(--line);border-radius:100px;padding:10px 18px;font-size:14px;font-weight:500;color:#3a3f49;background:#fff;transition:.25s}
+.integ span:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{padding:20px 0;font-weight:600;font-size:16.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:22px;color:var(--accent);font-weight:400}
+.faq details[open] summary::after{content:"−"}
+.faq p{color:var(--muted);font-size:14.5px;line-height:1.65;padding:0 0 20px}
+
+/* cta band */
+.ctaband{background:var(--ink);color:#fff;border-radius:26px;padding:64px 40px;text-align:center;position:relative;overflow:hidden}
+.ctaband .glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:560px;height:360px;background:radial-gradient(circle,rgba(37,99,235,.45),transparent 65%);filter:blur(10px)}
+.ctaband h2{font-size:clamp(30px,5vw,54px);line-height:1.02;max-width:760px;margin:0 auto;position:relative}
+.ctaband p{color:rgba(255,255,255,.7);font-size:17px;margin:18px auto 28px;max-width:460px;position:relative}
+.ctaband .row{display:flex;gap:12px;justify-content:center;position:relative;flex-wrap:wrap}
+
+/* footer */
+.foot{padding:40px 0;border-top:1px solid var(--line)}
+.foot .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;color:var(--muted);font-size:13.5px}
+.foot a{color:var(--muted);transition:color .2s}.foot a:hover{color:var(--ink)}
+.foot .fl{display:flex;gap:22px;flex-wrap:wrap}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+<!-- TRUST -->
+<section class="trust"><div class="wrap">
+  <p class="reveal">Нам доверяют более 200 юридических команд</p>
+  <div class="logos reveal"><span>Лекс&Право</span><span>ЮрСтандарт</span><span>Контракт+</span><span>Адвокат-Групп</span><span>Право.Центр</span><span>Фемида.Digital</span></div>
+</div></section>
+
+<!-- STATS -->
+<section class="block" style="padding:64px 0"><div class="wrap"><div class="stats">
+  <div class="reveal"><div class="stat-num" data-to="200" data-suf="+">0</div><div class="stat-lab">юридических команд</div></div>
+  <div class="reveal"><div class="stat-num" data-to="38" data-suf="%" data-pre="−">0</div><div class="stat-lab">меньше просрочек по срокам</div></div>
+  <div class="reveal"><div class="stat-num" data-to="18" data-suf="%" data-pre="+">0</div><div class="stat-lab">рост выручки за квартал</div></div>
+  <div class="reveal"><div class="stat-num" data-to="1" data-suf=" день">0</div><div class="stat-lab">на внедрение и перенос дел</div></div>
+</div></div></section>
+
+<!-- PROBLEM -->
+<section class="block warm" id="problem"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow reveal">Проблема</div><h2 class="reveal">Старый способ ломается на любом объёме дел.</h2></div>
+  <div class="num-grid">
+    <div class="reveal"><div class="num">01</div><h3>Дела в Excel и чатах</h3><p>Задачи теряются между таблицами и мессенджерами, а сроки всплывают в последний момент.</p></div>
+    <div class="reveal"><div class="num">02</div><h3>Нет единой картины</h3><p>Руководитель не видит загрузку юристов, кассу и узкие места в работе офисов.</p></div>
+    <div class="reveal"><div class="num">03</div><h3>Деньги вручную</h3><p>Счета, зарплаты и долги клиентов в отдельных файлах — дебиторка растёт, касса непрозрачна.</p></div>
+  </div>
+</div></section>
+
+<!-- 6 MODULES -->
+<section class="block" id="modules"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow reveal">Возможности</div><h2 class="reveal">Шесть модулей. Одно окно.</h2><p class="reveal">Всё, что нужно юридическому бизнесу, чтобы не терять лиды, деньги и сроки.</p></div>
+  <div class="mod-grid">
+    <div class="mod reveal"><div class="mi"><svg viewBox="0 0 24 24"><path d="M3 4h18M6 4v6a6 6 0 0 0 12 0V4M9 20h6M12 16v4"/></svg></div><div class="mn">/01</div><h3>Лиды и воронка</h3><p>Заявки с сайта и рекламы автоматически попадают в воронку. Видно, где клиент застрял и сколько стоит сделка.</p></div>
+    <div class="mod reveal"><div class="mi"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div><div class="mn">/02</div><h3>Дела и клиенты</h3><p>Карточка клиента, история, документы и задачи по каждому делу — без потерянных папок и чатов.</p></div>
+    <div class="mod reveal"><div class="mi"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div><div class="mn">/03</div><h3>AI-анализ договоров</h3><p>Загрузите договор — система найдёт риски, спорные пункты и отклонения от шаблона за секунды.</p><span class="ai-tag">⌘ на базе AI</span></div>
+    <div class="mod reveal"><div class="mi"><svg viewBox="0 0 24 24"><path d="M3 7h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l2-3h11l2 3M16 13h2"/></svg></div><div class="mn">/04</div><h3>Финансы и касса</h3><p>Выручка, расходы, зарплаты и долги клиентов в реальном времени. Видно, кто и сколько приносит.</p></div>
+    <div class="mod reveal"><div class="mi"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 9h8V3h-8z"/></svg></div><div class="mn">/05</div><h3>Сотрудники и KPI</h3><p>Загрузка юристов, задачи, дедлайны и эффективность каждого — рейтинг и касса на одном экране.</p></div>
+    <div class="mod reveal"><div class="mi"><svg viewBox="0 0 24 24"><path d="M4 4v16h16M8 16l3-4 3 3 4-6"/></svg></div><div class="mn">/06</div><h3>Документооборот</h3><p>Шаблоны, генерация документов в один клик, версии и согласования внутри системы.</p></div>
+  </div>
+</div></section>
+
+<!-- SHOWCASE: animated CRM demos -->
+<section class="block warm" id="showcase"><div class="wrap">
+  <div class="sec-head center" style="max-width:640px"><div class="eyebrow reveal">Интерфейс в деле</div><h2 class="reveal">Не скриншоты — а живой продукт.</h2><p class="reveal">Тот же интерфейс, что вы получаете после внедрения. Цифры, графики и AI-анализ обновляются в реальном времени.</p></div>
+
+  <!-- Row 1: Касса/KPI -->
+  <div class="show-row">
+    <div class="show-txt reveal">
+      <div class="eyebrow">Сотрудники и KPI</div>
+      <h3>Видно, кто и сколько приносит</h3>
+      <p>Касса юристов с конверсией, рейтингом и выручкой по каждому сотруднику. Сразу понятно, кто лидер, а кому нужна помощь.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Конверсия из консультации в договор</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Рейтинг ★ по эффективности</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Касса за день и за период</li>
+      </ul>
+    </div>
+    <div class="show-vis reveal"><div class="mini" data-demo="kassa">
+      <div class="mini-bar"><i></i><i></i><i></i><span>Касса юристов · LawTech Москва</span></div>
+      <div class="mini-in">
+        <table class="c-tbl">
+          <thead><tr><th>Сотрудник</th><th>Конв.</th><th>Рейтинг</th><th class="r">Касса</th></tr></thead>
+          <tbody>
+            <tr class="krow"><td class="name">Лаврова Екатерина</td><td class="grn">64%</td><td><span class="stars">★★★</span></td><td class="r">540 000 ₽</td></tr>
+            <tr class="krow"><td class="name">Гусев Андрей</td><td class="grn">67%</td><td><span class="stars">★★★</span></td><td class="r">480 000 ₽</td></tr>
+            <tr class="krow"><td class="name">Зорина Марина</td><td>30%</td><td><span class="stars">★★<span class="o">★</span></span></td><td class="r">410 000 ₽</td></tr>
+            <tr class="krow"><td class="name">Тихонов Роман</td><td>28%</td><td><span class="stars">★★<span class="o">★</span></span></td><td class="r">330 000 ₽</td></tr>
+            <tr class="total"><td>Итого</td><td>41%</td><td></td><td class="r">1 980 000 ₽</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Row 2: AI contract analysis -->
+  <div class="show-row rev">
+    <div class="show-txt reveal">
+      <div class="eyebrow">AI-анализ договоров</div>
+      <h3>Риски в договоре — за секунды</h3>
+      <p>Загрузите договор — Law.Tech подсветит спорные пункты, отклонения от шаблона и сроки, на которые легко не обратить внимания.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Опасные условия и штрафы</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Отклонения от вашего шаблона</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Критичные сроки и подсудность</li>
+      </ul>
+    </div>
+    <div class="show-vis reveal"><div class="mini" data-demo="ai">
+      <div class="mini-bar"><i></i><i></i><i></i><span>AI-анализ · NDA — ООО «Альфа»</span></div>
+      <div class="ai-doc" style="border:none;border-radius:0">
+        <div class="ai-h"><b>NDA — ООО «Альфа» · 14 стр.</b><span class="ai-badge"><span class="sp"></span>AI-анализ</span></div>
+        <div class="ai-scan"><div class="ai-line l"></div><div class="ai-line m"></div><div class="ai-line s"></div></div>
+        <div class="ai-flags">
+          <div class="ai-flag high" data-i="1"><span class="ico"></span>Односторонний выход без компенсации (п. 7.4)<span class="lvl">HIGH</span></div>
+          <div class="ai-flag med" data-i="2"><span class="ico"></span>Срок ответа на претензию — 5 дней<span class="lvl">MEDIUM</span></div>
+          <div class="ai-flag ok" data-i="3"><span class="ico"></span>Подсудность совпадает с шаблоном<span class="lvl">OK</span></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Row 3: Приходы / конверсия -->
+  <div class="show-row">
+    <div class="show-txt reveal">
+      <div class="eyebrow">Приходы и конверсия</div>
+      <h3>Каждый приход — под контролем</h3>
+      <p>Кто пришёл, кто записал, какой юрист консультировал и заключён ли договор. Конверсия считается автоматически.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Первичные и действующие клиенты</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Результат консультации в один клик</li>
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Привязка к документам и договору</li>
+      </ul>
+    </div>
+    <div class="show-vis reveal"><div class="mini" data-demo="arr">
+      <div class="mini-bar"><i></i><i></i><i></i><span>Приходы · 09.05.2026</span></div>
+      <div class="mini-in">
+        <div class="c-kpis" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">
+          <div class="c-kpi"><div class="kl">Пришло</div><div class="kv"><span data-count="2">0</span></div></div>
+          <div class="c-kpi"><div class="kl">Договор</div><div class="kv grn"><span data-count="2">0</span></div></div>
+          <div class="c-kpi"><div class="kl">Конверсия</div><div class="kv acc"><span data-count="100">0</span>%</div></div>
+        </div>
+        <table class="c-tbl"><thead><tr><th>ФИО</th><th>Юрист</th><th>Результат</th></tr></thead><tbody>
+          <tr class="krow"><td class="name">Лебедев Андрей</td><td>Иван Петров</td><td><span class="c-result y">✓</span></td></tr>
+          <tr class="krow"><td class="name">Иванов Иван</td><td>Иван Петров</td><td><span class="c-result y">✓</span></td></tr>
+        </tbody></table>
+      </div>
+    </div></div>
+  </div>
+</div></section>
+
+<!-- FOR WHOM -->
+<section class="block" id="forwhom"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow reveal">Для кого</div><h2 class="reveal">Для тех, кто живёт в юридической работе.</h2></div>
+  <div class="seg-grid">
+    <div class="seg reveal"><div class="tag">A</div><h3>Юридические фирмы и сети офисов</h3><ul>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Видно загрузку каждого юриста и кто приносит деньги</li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Лиды не теряются — вся воронка под контролем</li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Касса, зарплаты и долги клиентов в одном месте</li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Сравнение офисов: план/факт и конверсия</li>
+    </ul></div>
+    <div class="seg reveal"><div class="tag">B</div><h3>Частные юристы и адвокаты</h3><ul>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Все дела, документы и дедлайны в одном окне</li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>AI проверяет договоры на риски за секунды</li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Шаблоны и генерация документов в один клик</li>
+      <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Записи клиентов и напоминания о консультациях</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- HOW -->
+<section class="block warm" id="how"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow reveal">Как это работает</div><h2 class="reveal">От хаоса к порядку за один день.</h2></div>
+  <div class="steps">
+    <div class="step reveal"><div class="stepn">01</div><h3>Подключаем за 1 день</h3><p>Переносим клиентов, дела и шаблоны. Настраиваем воронку под ваши процессы — без долгого внедрения.</p></div>
+    <div class="step reveal"><div class="stepn">02</div><h3>Работаете в одном окне</h3><p>Команда ведёт лиды, дела, документы и финансы в Law.Tech. Ничего не теряется в чатах и таблицах.</p></div>
+    <div class="step reveal"><div class="stepn">03</div><h3>Видите всю картину</h3><p>Руководитель видит выручку, загрузку и риски 24/7. Решения — на данных, а не на ощущениях.</p></div>
+  </div>
+</div></section>
+
+<!-- SECURITY -->
+<section class="block" id="security"><div class="wrap"><div class="sec-split">
+  <div class="reveal">
+    <div class="eyebrow">Безопасность</div>
+    <h2 class="disp" style="margin-top:16px;font-size:clamp(26px,4vw,42px)">Данные ваших клиентов под защитой.</h2>
+    <div class="sec-list">
+      <div class="it"><span class="dot"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span><div><b>Серверы в РФ, 152-ФЗ</b><p>Хранение и обработка персональных данных в полном соответствии с законом.</p></div></div>
+      <div class="it"><span class="dot"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span><div><b>Шифрование и роли доступа</b><p>Гибкие права: каждый сотрудник видит только то, что ему положено.</p></div></div>
+      <div class="it"><span class="dot"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l3-3 3 3 5-6"/></svg></span><div><b>История изменений</b><p>Журнал действий по каждому делу — кто, что и когда менял.</p></div></div>
+    </div>
+  </div>
+  <div class="shield reveal"><div class="big">152</div><div class="cap">Соответствие 152-ФЗ</div><div class="sub">резервные копии · on-premise по запросу · 99,9% аптайм</div></div>
+</div></div></section>
+
+<!-- REVIEWS -->
+<section class="block warm" id="reviews"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow reveal">Отзывы</div><h2 class="reveal">Юрфирмы, которые навели порядок.</h2></div>
+  <div class="swiper tstm-swiper reveal"><div class="swiper-wrapper">
+    <div class="swiper-slide"><div class="quote"><div class="stars">★★★★★</div><p>«Перестали терять сроки. Вся практика наконец в одном месте, а не в десяти чатах».</p><div class="who"><span class="ava2">АИ</span><div><b>Анна Иванова</b><small>Управляющий партнёр</small></div></div></div></div>
+    <div class="swiper-slide"><div class="quote"><div class="stars">★★★★★</div><p>«Внедрили за день, перенос дел — бесплатно. Команда втянулась сразу».</p><div class="who"><span class="ava2" style="background:#7C3AED">СП</span><div><b>Сергей Петров</b><small>Руководитель юротдела</small></div></div></div></div>
+    <div class="swiper-slide"><div class="quote"><div class="stars">★★★★★</div><p>«Вижу кассу юристов и конверсию в реальном времени. Управлять офисами стало проще».</p><div class="who"><span class="ava2" style="background:#0EA5A4">ДС</span><div><b>Дмитрий Соколов</b><small>Директор сети</small></div></div></div></div>
+    <div class="swiper-slide"><div class="quote"><div class="stars">★★★★★</div><p>«Дебиторку видно сразу. Зарплаты и касса больше не разбросаны по файлам».</p><div class="who"><span class="ava2" style="background:#DB2777">ЕМ</span><div><b>Елена Морозова</b><small>Финансовый директор</small></div></div></div></div>
+  </div><div class="swiper-pagination"></div></div>
+</div></section>
+
+<!-- PRICING -->
+<section class="block" id="price"><div class="wrap">
+  <div class="sec-head"><div class="eyebrow reveal">Тарифы</div><h2 class="reveal">Прозрачно. Без сюрпризов.</h2><p class="reveal">14 дней бесплатно. Перенос данных — за наш счёт. Отмена в любой момент.</p></div>
+  <div class="prices">
+    <div class="price reveal"><div class="pname">Старт</div><div class="pval">₽4&thinsp;900<small>/мес</small></div><p style="color:var(--muted);font-size:13.5px">Для частных юристов и небольших практик</p>
+      <ul><li>До 3 пользователей</li><li>Лиды, дела, клиенты</li><li>Документы и шаблоны</li><li>Поддержка в чате</li></ul>
+      <a class="btn btn-ghost magnet">Начать</a></div>
+    <div class="price pop reveal"><div class="badge">Популярный</div><div class="pname">Команда</div><div class="pval">₽12&thinsp;900<small>/мес</small></div><p style="color:var(--muted);font-size:13.5px">Для юрфирм, которым нужен полный контроль</p>
+      <ul><li>До 15 пользователей</li><li>Все модули + финансы и касса</li><li>AI-анализ договоров</li><li>Аналитика и KPI</li><li>Приоритетная поддержка</li></ul>
+      <a class="btn btn-pri magnet">Получить демо</a></div>
+    <div class="price reveal"><div class="pname">Корпорация</div><div class="pval">Индивид.</div><p style="color:var(--muted);font-size:13.5px">Для крупных сетей с особыми требованиями</p>
+      <ul><li>Без ограничений</li><li>Интеграции и API</li><li>Размещение на вашем сервере</li><li>Персональный менеджер</li></ul>
+      <a class="btn btn-ghost magnet">Обсудить</a></div>
+  </div>
+</div></section>
+
+<!-- INTEGRATIONS -->
+<section class="block warm" style="text-align:center"><div class="wrap">
+  <div class="eyebrow reveal">Интеграции</div>
+  <h2 class="reveal disp" style="margin-top:16px;font-size:clamp(24px,3.4vw,38px)">Работает с тем, что у вас уже есть.</h2>
+  <div class="integ reveal" style="max-width:760px;margin:28px auto 0">
+    <span>Excel</span><span>1С</span><span>Почта</span><span>Telegram</span><span>Госуслуги (ЭЦП)</span><span>Календарь</span><span>API</span><span>Документы Word</span>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section class="block" id="faq"><div class="wrap">
+  <div class="center" style="max-width:640px;margin:0 auto 36px"><div class="eyebrow reveal">FAQ</div><h2 class="reveal" style="margin-top:16px">Частые вопросы</h2></div>
+  <div class="faq reveal">
+    <details open><summary>Можно перенести данные из Excel или другой CRM?</summary><p>Да. Поддерживаем импорт из Excel и поможем перенести дела, клиентов и шаблоны бесплатно при подключении.</p></details>
+    <details><summary>Где хранятся данные?</summary><p>На серверах в РФ, с соответствием 152-ФЗ и шифрованием. Возможен вариант on-premise на вашей инфраструктуре.</p></details>
+    <details><summary>Как работает AI-анализ договоров?</summary><p>Загружаете договор — система сравнивает его с вашим шаблоном и базой рисков, подсвечивает спорные пункты, штрафы и критичные сроки за секунды.</p></details>
+    <details><summary>Есть мобильная версия?</summary><p>Да, интерфейс адаптивный и полноценно работает с телефона и планшета — без отдельного приложения.</p></details>
+    <details><summary>Сколько занимает внедрение?</summary><p>Обычно один день: заводим офисы и команду, переносим дела, показываем процессы. Дальше — поддержка на связи.</p></details>
+    <details><summary>Есть ли пробный период?</summary><p>Да, 14 дней бесплатно со всеми возможностями тарифа. Без привязки карты.</p></details>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section class="block"><div class="wrap"><div class="ctaband reveal"><div class="glow"></div>
+  <h2 class="disp">Наведите порядок в юридическом офисе.</h2>
+  <p>Покажем Law.Tech на ваших процессах за 20 минут. Внедрение — за один день.</p>
+  <div class="row"><a class="btn btn-accent magnet">Запросить демо</a><a class="btn btn-ghost" style="background:transparent;border-color:rgba(255,255,255,.25);color:#fff">Связаться с нами</a></div>
+</div></div></section>
+
+<!-- FOOTER -->
+<footer class="foot"><div class="wrap">
+  <div>© 2026 Law.Tech — CRM для юридических компаний · лаутеч.рф</div>
+  <div class="fl"><a href="#modules">Возможности</a><a href="#price">Тарифы</a><a href="#how">Как это работает</a><a href="#faq">FAQ</a><a>Войти</a></div>
+</div></footer>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+document.documentElement.classList.remove('no-js');
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // ---------- helpers ----------
+  function fmt(n,money){ if(money){return Math.round(n).toLocaleString('ru-RU');} return n; }
+  function animateCount(el){
+    if(el.dataset.done) return; el.dataset.done=1;
+    var to=parseFloat(el.dataset.count), money=el.dataset.fmt==='money', dur=money?1400:1100, t0=null;
+    if(reduce){el.textContent=fmt(to,money);return;}
+    function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3);
+      el.textContent=fmt(to*e,money); if(p<1)requestAnimationFrame(step); else el.textContent=fmt(to,money); }
+    requestAnimationFrame(step);
+  }
+  function animateStat(el){
+    if(el.dataset.done)return; el.dataset.done=1;
+    var to=parseFloat(el.dataset.to), pre=el.dataset.pre||'', suf=el.dataset.suf||'', dur=1500, t0=null, dec=(to%1!==0)?1:0;
+    if(reduce){el.textContent=pre+to+suf;return;}
+    function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur); var e=1-Math.pow(1-p,3);
+      el.textContent=pre+(to*e).toFixed(dec).replace('.',',')+suf; if(p<1)requestAnimationFrame(step); else el.textContent=pre+to.toFixed(dec).replace('.',',')+suf;}
+    requestAnimationFrame(step);
+  }
+  function fillBars(scope){ scope.querySelectorAll('.c-bar i[data-w]').forEach(function(b){ if(b.dataset.filled)return; b.dataset.filled=1; setTimeout(function(){b.style.width=b.dataset.w+'%';},120); }); }
+  function runCounters(scope){ scope.querySelectorAll('[data-count]').forEach(animateCount); }
+  function revealRows(scope){ var rows=scope.querySelectorAll('.krow'); rows.forEach(function(r,i){ r.style.opacity=0; r.style.transform='translateY(8px)'; r.style.transition='opacity .45s ease, transform .45s ease'; setTimeout(function(){r.style.opacity=1;r.style.transform='none';}, 120+i*90); }); }
+  function showAiFlags(scope){ var f=scope.querySelectorAll('.ai-flag'); f.forEach(function(el,i){ setTimeout(function(){el.classList.add('show');}, 500+i*420); }); }
+
+  // ---------- IntersectionObserver: reveals + demo triggers ----------
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(!en.isIntersecting)return; var el=en.target;
+      el.classList.add('in');
+      // stat numbers
+      if(el.classList.contains('reveal')){ el.querySelectorAll('.stat-num[data-to]').forEach(animateStat); }
+      io.unobserve(el);
+    });
+  },{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('.stat-num[data-to]').forEach(function(el){ io.observe(el); });
+
+  // demo widgets observer
+  var dio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(!en.isIntersecting)return; var el=en.target; var d=el.dataset.demo;
+      if(d==='kassa'||d==='arr'){ runCounters(el); revealRows(el); }
+      if(d==='ai'){ showAiFlags(el); }
+      dio.unobserve(el);
+    });
+  },{threshold:.3});
+  document.querySelectorAll('[data-demo]').forEach(function(el){ dio.observe(el); });
+
+  // hero app: trigger counters + bars when in view
+  var aio=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(!en.isIntersecting)return; var app=en.target;
+      var active=app.querySelector('.c-panel.on'); if(active){runCounters(active);fillBars(active);}
+      aio.unobserve(app);
+    });
+  },{threshold:.2});
+  var appEl=document.querySelector('[data-app]'); if(appEl)aio.observe(appEl);
+
+  // ---------- tabs (hero + sidebar) ----------
+  function switchTab(name){
+    document.querySelectorAll('.c-tab').forEach(function(t){ t.classList.toggle('on',t.dataset.tab===name); });
+    document.querySelectorAll('.c-nav a[data-go]').forEach(function(a){ a.classList.toggle('on',a.dataset.go===name); });
+    // keep first nav (office) highlighted only when office
+    document.querySelectorAll('.c-panel').forEach(function(p){
+      var on=p.dataset.panel===name; p.classList.toggle('on',on);
+      if(on){ runCounters(p); fillBars(p); }
+    });
+  }
+  document.querySelectorAll('.c-tab').forEach(function(t){ t.addEventListener('click',function(){switchTab(t.dataset.tab);}); });
+  document.querySelectorAll('.c-nav a[data-go]').forEach(function(a){ a.addEventListener('click',function(e){e.preventDefault();switchTab(a.dataset.go);}); });
+
+  // ---------- smooth anchor scroll ----------
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){ a.addEventListener('click',function(e){ var id=a.getAttribute('href'); if(id.length>1){var el=document.querySelector(id); if(el){e.preventDefault(); el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});}} }); });
+
+  // ---------- magnetic buttons ----------
+  if(!reduce){ document.querySelectorAll('.magnet').forEach(function(b){
+    b.addEventListener('mousemove',function(e){ var r=b.getBoundingClientRect(); var x=e.clientX-r.left-r.width/2, y=e.clientY-r.top-r.height/2; b.style.transform='translate('+x*.18+'px,'+(y*.28-2)+'px)'; });
+    b.addEventListener('mouseleave',function(){ b.style.transform=''; });
+  }); }
+
+  // ---------- swiper ----------
+  if(window.Swiper){ new Swiper('.tstm-swiper',{slidesPerView:1.05,spaceBetween:18,grabCursor:true,pagination:{el:'.swiper-pagination',clickable:true},breakpoints:{640:{slidesPerView:2.1},1000:{slidesPerView:3}}}); }
+
+  // ---------- subtle hero parallax ----------
+  if(!reduce){ var stage=document.querySelector('[data-parallax] .app'); window.addEventListener('scroll',function(){ var y=window.scrollY; if(stage&&y<900){ stage.style.transform='translateY('+(y*-0.02)+'px)'; } },{passive:true}); }
+})();
+</script>
+</body>
+</html>
